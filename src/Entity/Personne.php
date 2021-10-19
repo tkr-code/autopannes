@@ -82,4 +82,8 @@ class Personne
 
         return $this;
     }
+    public function getFullName()
+    {
+        return $this->getFirstName() . ' '.$this->getLastName();
+    }
 }

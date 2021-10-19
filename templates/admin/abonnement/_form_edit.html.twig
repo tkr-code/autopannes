@@ -1,0 +1,19 @@
+{{ form_start(form)}}
+<div class="row">
+    <div class="col-lg-12">
+        <div class="form-row">
+            <div class="form-group col-4">
+            {{form_row(form.created_at)}}
+            </div>
+            <div class="form-group col-4">
+            {{form_row(form.end_at)}}
+            </div>
+            <div class="form-group col-4">
+            {{form_row(form.etat)}}
+            </div>
+        </div>
+    </div>
+</div>
+{{ form_widget(form)}}
+    <button class="btn btn-primary">{{ button_label|default('Save') }}</button>
+{{ form_end(form)}}

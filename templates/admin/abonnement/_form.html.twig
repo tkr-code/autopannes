@@ -1,0 +1,76 @@
+{{ form_start(form)}}
+<div class="row">
+    <div class="col-lg-12">
+        <h4 class=" text-center rounded p-2 bg-light">Vos coordonnes</h4>
+        <div class="form-row">
+            <div class="form-group col-4">
+                {{ form_row(form.client.personne.firstName)}}
+            </div>
+            <div class="form-group col-4">
+                {{ form_row(form.client.personne.lastName)}}
+            </div>
+            <div class="form-group col-4">
+                {{ form_row(form.client.hbd_day) }}
+            </div>
+            <div class="form-group col-6">
+                {{ form_row(form.client.address) }}
+            </div>
+            <div class="form-group col-3">
+                {{ form_row(form.client.postal_code) }}
+            </div>
+            <div class="form-group col-3">
+                {{ form_row(form.client.city) }}
+            </div>
+            <div class="form-group col-6">
+                {{ form_row(form.client.email) }}
+            </div>
+            <div class="form-group col-6">
+                {{ form_row(form.client.phone_number) }}
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-12">
+        <h4 class=" text-center rounded p-2 bg-light">Votre véhicule vehicule</h4>
+        <div class="form-row">
+            <div class="form-group col-4">
+                {{ form_row(form.vehicule.marque)}}
+            </div>
+            <div class="form-group col-4">
+                {{ form_row(form.vehicule.model_and_version)}}
+            </div>
+            <div class="form-group col-4">
+                {{ form_row(form.vehicule.serie)}}
+            </div>
+            <div class="form-group col-4">
+                {{ form_row(form.vehicule.immatriculation)}}
+            </div>
+            <div class="form-group col-4">
+                {{ form_row(form.vehicule.mise_en_circulation)}}
+            </div>
+            <div class="form-group col-4">
+                {{ form_row(form.vehicule.puissance)}}
+            </div>
+            <div class="form-group col-4">
+                {{ form_row(form.vehicule.kilometrage)}}
+            </div>
+            <div class="form-group col-4">
+                {{ form_row(form.vehicule.utilisation)}}
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-12">
+        <h4 class=" text-center rounded p-2 bg-light">Vos besoins</h4>
+        <p>Vous envisagez d'adherer a l'aussurancee= en fonction de vos besoins et du type de votre vehicule</p>
+        <div class="form-row">
+            <div class="form-group col-6">
+            {{form_row(form.formule)}}
+            </div>
+            <div class="form-group col-6">
+            {{form_row(form.payment)}}
+            </div>
+        </div>
+    </div>
+</div>
+{{ form_widget(form)}}
+    <button class="btn btn-primary">{{ button_label|default('Save') }}</button>
+{{ form_end(form)}}

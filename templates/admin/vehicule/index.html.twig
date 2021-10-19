@@ -1,0 +1,70 @@
+{% import "/macros/dataTable.html.twig" as dataTable %}
+{% extends 'admin/base.html.twig' %}
+
+{% block head %}
+    {{ dataTable.css()}}
+{% endblock %}
+
+{% block foot %}
+    {{ dataTable.js()}}
+{% endblock %}
+
+{% block javascripts %}
+    {{ dataTable.script('#table-1')}}
+{% endblock %}
+{% block title %}Vehicule{% endblock %}
+
+{% block body %}
+<div class="card">
+    <div class="card-header">
+        <h1>Vehicule</h1>
+
+    </div>
+    <div class="card-body">
+        <div class="row mb-3">
+            <div class="col-md-12 col-12">
+                <div class="btn-group">
+                        <a class="btn btn-primary" href="{{ path('vehicule_new') }}">Create new</a>
+                </div>
+            </div>
+        </div>
+        <table id="table-1" class="table">
+            <thead>
+                <tr>
+                    <th>Marque</th>
+                    <th>Serie</th>
+                    <th>Model et version</th>
+                    <th>Immatriculation</th>
+                    <th>Puissance</th>
+                    <th>Mise en circulation</th>
+                    <th>Kilometrage</th>
+                    <th>Utilisation</th>
+                    <th>actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for vehicule in vehicules %}
+                <tr>
+                    <td>{{ vehicule.marque }}</td>
+                    <td>{{ vehicule.serie }}</td>
+                    <td>{{ vehicule.modelAndVersion }}</td>
+                    <td>{{ vehicule.immatriculation }}</td>
+                    <td>{{ vehicule.puissance }}</td>
+                    <td>{{ vehicule.miseEnCirculation ? vehicule.miseEnCirculation|date('Y-m-d H:i:s') : '' }}</td>
+                    <td>{{ vehicule.kilometrage }}</td>
+                    <td>{{ vehicule.utilisation }}</td>
+                    <td>
+                        <a href="{{ path('vehicule_show', {'id': vehicule.id}) }}">show</a>
+                        <a href="{{ path('vehicule_edit', {'id': vehicule.id}) }}">edit</a>
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="11">no records found</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
