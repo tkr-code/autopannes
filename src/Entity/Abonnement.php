@@ -68,6 +68,11 @@ class Abonnement
      */
     private $client;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $number;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -153,6 +158,18 @@ class Abonnement
     public function setClient(?Client $client): self
     {
         $this->client = $client;
+
+        return $this;
+    }
+
+    public function getNumber(): ?string
+    {
+        return $this->number;
+    }
+
+    public function setNumber(string $number): self
+    {
+        $this->number = $number;
 
         return $this;
     }

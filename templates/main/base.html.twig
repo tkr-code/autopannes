@@ -1,0 +1,24 @@
+{% import "macros/navs.html.twig" as nav %}
+{% import "macros/breadcrumb.html.twig" as breadcrumb %}
+{% import "macros/bootstrap.html.twig" as bootstrap %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}{% endblock %} | {{  app_name }}</title>
+  {{ bootstrap.css() }}
+  <!-- Theme style -->
+  {% block head %}{% endblock %}
+
+</head>
+<body>
+
+    {% block body %}{% endblock %}
+    {% block footer %}{% endblock %}
+    {{ bootstrap.js() }}
+    {% block foot %}{% endblock %}
+
+{% block javascripts %}{% endblock %}
+</body>
+</html>
