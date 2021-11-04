@@ -31,31 +31,31 @@ class AppExtension extends AbstractExtension
         switch ($date->format('N')) {
             case '01':
                 // code...
-                $jour = 'lundi';
+                $jour = 'Lundi';
                 break;
             case '02':
                 // code...
-                $jour = 'mardi';
+                $jour = 'Mardi';
                 break;
             case '03':
                 // code...
-                $jour = 'mercredi';
+                $jour = 'Mercredi';
                 break;
             case '04':
                 // code...
-                $jour = 'jeurdi';
+                $jour = 'Jeurdi';
                 break;
             case '05':
                 // code...
-                $jour = 'vendredi';
+                $jour = 'Vendredi';
                 break;
             case '06':
                 // code...
-                $jour = 'samedi';
+                $jour = 'Samedi';
                 break;
             case '07':
                 // code...
-                $jour = 'dimanche';
+                $jour = 'Dimanche';
                 break;
 
             default:

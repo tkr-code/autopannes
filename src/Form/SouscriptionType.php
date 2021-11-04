@@ -20,15 +20,8 @@ class SouscriptionType extends AbstractType
             ->add('vehicule',VehiculeType::class,[
                 'label'=>false
             ])
-            ->add('formule',EntityType::class,[
-                'class'=>Formule::class,
-                'choice_label'=>function($formule){
-                    return $formule->getName().' - : '.$formule->getAmount();
-                }
-            ])
-            ->add('payment_method',EntityType::class,[
-                'class'=>PaymentMethod::class,
-                'choice_label'=>'name'
+            ->add('payment',PaymentMethodAbonnementType::class,[
+                'label'=>false
             ])
         ;
     }
@@ -36,6 +29,7 @@ class SouscriptionType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
+            
             // Configure your form options here
         ]);
     }

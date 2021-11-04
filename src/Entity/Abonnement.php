@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\AbonnementRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=AbonnementRepository::class)
@@ -19,8 +20,8 @@ class Abonnement
     const etats=
     [
         'En cour'=>'En cour',
-        'Annuller'=>'Annuller',
-        'Termine'=>'Terminer'
+        'Annuler'=>'Annuler',
+        'Terminer'=>'Terminer'
     ];
 
     /**
@@ -43,26 +44,23 @@ class Abonnement
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $etat= 'In progress';
+    private $etat= 'En cour';
 
     /**
-     * @ORM\OneToOne(targetEntity=Formule::class, cascade={"persist", "remove"})
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $formule;
-
-    /**
+     * @Assert\Valid
      * @ORM\OneToOne(targetEntity=Vehicule::class, inversedBy="abonnement", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $vehicule;
 
     /**
+     * @Assert\Valid
      * @ORM\OneToOne(targetEntity=Payment::class, inversedBy="abonnement", cascade={"persist", "remove"})
      */
     private $payment;
 
     /**
+     * @Assert\Valid
      * @ORM\ManyToOne(targetEntity=Client::class, inversedBy="abonnements", cascade={"persist"} )
      * @ORM\JoinColumn(nullable=false)
      */
@@ -110,18 +108,6 @@ class Abonnement
     public function setEtat(string $etat): self
     {
         $this->etat = $etat;
-
-        return $this;
-    }
-
-    public function getFormule(): ?Formule
-    {
-        return $this->formule;
-    }
-
-    public function setFormule(Formule $formule): self
-    {
-        $this->formule = $formule;
 
         return $this;
     }

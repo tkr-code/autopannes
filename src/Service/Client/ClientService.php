@@ -14,7 +14,7 @@ class ClientService
     public function clientNumber()
     {
         $number= 1;
-        $items = $this->clientRepository->findAll();
+        $items = $this->clientRepository->findLast();
         foreach($items as $item)
         {
            $number += $item->getNumber();

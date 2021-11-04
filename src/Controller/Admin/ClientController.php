@@ -2,9 +2,14 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\Abonnement;
 use App\Entity\Client;
+use App\Form\AbonnementClientType;
+use App\Form\AbonnementType;
 use App\Form\ClientType;
+use App\Repository\AbonnementRepository;
 use App\Repository\ClientRepository;
+use App\Service\Abonnement\AbonnementService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,23 +21,13 @@ use Symfony\Component\Routing\Annotation\Route;
 class ClientController extends AbstractController
 {
     /**
-     * gestion
-     * @Route("/gestion/{id}", name="admin_client_gestion", methods={"GET"})
-     * @return Response
-     */
-    public function gestion(Client $client):Response
-    {
-        return $this->render('admin/client/gestion.html.twig',[
-            'client'=>$client
-        ]);
-    }
-    /**
      * @Route("/", name="admin_client_index", methods={"GET"})
      */
     public function index(ClientRepository $clientRepository): Response
     {
         return $this->render('admin/client/index.html.twig', [
             'clients' => $clientRepository->findAll(),
+            'parent_page'=>'Abonnement'
         ]);
     }
 
@@ -56,16 +51,20 @@ class ClientController extends AbstractController
         return $this->renderForm('admin/client/new.html.twig', [
             'client' => $client,
             'form' => $form,
+            'parent_page'=>'Client'
         ]);
     }
 
     /**
      * @Route("/{id}", name="admin_client_show", methods={"GET"})
      */
-    public function show(Client $client): Response
+    public function show(Client $client, AbonnementRepository $abonnementRepository): Response
     {
         return $this->render('admin/client/show.html.twig', [
             'client' => $client,
+            'En_cour'=>$abonnementRepository->etat('En cour', $client),
+            'Anuller'=>$abonnementRepository->etat('Annuller', $client),
+            'Terminer'=>$abonnementRepository->etat('Terminer', $client)
         ]);
     }
 

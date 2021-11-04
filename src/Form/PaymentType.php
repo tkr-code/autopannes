@@ -26,7 +26,7 @@ class PaymentType extends AbstractType
                     'completed'=>'completed'
                 ],
                 'attr'=>[
-                    'value'=>'In progress'
+                    'value'=>'En cour'
                 ]
             ])
             

@@ -1,0 +1,8 @@
+
+{% macro role(role) %}
+    {% if role == 'ROLE_ADMIN' %}
+        Administrateur
+    {% elseif role == 'ROLE_USER' %}
+        Utilisateur
+    {% endif %}
+{% endmacro %}

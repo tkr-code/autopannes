@@ -4,9 +4,11 @@ namespace App\Entity;
 
 use App\Repository\VehiculeRepository;
 use Doctrine\ORM\Mapping as ORM;
-
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 /**
  * @ORM\Entity(repositoryClass=VehiculeRepository::class)
+ * @UniqueEntity(fields={"immatriculation"}, message="Cette valeur existe ")
  */
 class Vehicule
 {
@@ -80,7 +82,7 @@ class Vehicule
 
     /**
      * @ORM\ManyToOne(targetEntity=Client::class, inversedBy="vehicules")
-     * @ORM\JoinColumn(nullable=true)
+     * @ORM\JoinColumn(nullable=false)
      */
     private $client;
 

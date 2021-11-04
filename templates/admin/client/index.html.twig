@@ -15,17 +15,13 @@
     {{ dataTable.script('#table-1') }}
 {% endblock %}
 {% block body %}
-<div class="card">
+<div class="card card-outline card-primary">
     <div class="card-header">
         <h3>Clients </h3>
     </div>
     <div class="card-body">
-        <div class="row mb-3">
-            <div class="col-12 col-md-12">
-                <div class="btn-group">
-                        <a class="btn btn-primary" href="{{ path('admin_client_new') }}">Create new</a>
-                </div>
-            </div>
+        <div class="btn-group mb-3">
+            <a href="{{ path('admin_client_new') }}" class="btn btn-primary">Nouveau client</a>
         </div>
         <table id="table-1" class="table">
             <thead>
@@ -43,15 +39,17 @@
                 <tr>
                     <td>{{ client.number }}</td>
                     <td>
-                    <a href="{{ path('admin_client_gestion',{id:client.id }) }}">
+                    <a class="a-1" href="{{ path('admin_client_show',{id:client.id }) }}">
                         {{ client.personne.fullName }}</td>
                     </a>
                     <td>{{ client.email }}</td>
                     <td>{{ client.abonnements|length }}</td>
                     <td>{{ client.phoneNumber }}</td>
                     <td>
-                        <a href="{{ path('admin_client_show', {'id': client.id}) }}">show</a>
-                        <a href="{{ path('admin_client_edit', {'id': client.id}) }}">edit</a>
+                        <div class="btn-group">
+                        <a class="btn btn-light" title="Detail sur le client" href="{{ path('admin_client_show', {'id': client.id}) }}"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                        <a class="btn btn-success" href="{{ path('admin_client_edit', {'id': client.id}) }}"><i class="fas fa-pencil-alt    "></i></a>
+                        </div>
                     </td>
                 </tr>
                 {% else %}

@@ -1,0 +1,14 @@
+{% macro infoBox(items,params) %}
+<div class="info-box">
+    <span class="info-box-icon bg-{{ params.bg|default('info')}} elevation-1"><i class="{{ params.icon|default('fa fa-question-circle') }}"></i></span>
+
+    <div class="info-box-content">
+        <span class="info-box-text"><a href="{{ params.path }}" class="a-1">{{ params.name }}</a> </span>
+        <span class="info-box-number">
+            {{ items|length|default('0') }}
+        </span>
+    </div>
+    <!-- /.info-box-content -->
+</div>
+<!-- /.info-box -->
+{% endmacro %}
