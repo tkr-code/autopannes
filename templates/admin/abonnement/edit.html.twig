@@ -2,25 +2,55 @@
 {% import "macros/breadcrumb.html.twig" as breadcrumb %}
 
 {% block title %}Edit Abonnement{% endblock %}
-  {% block breadcrumb %}
-    {{ breadcrumb.breadcrumb('Editer abonnement',[
-        {
-            path:path('admin_abonnement_index'),
-            name:'Abonnements'
-        }
-        ]) 
-    }}
-  {% endblock %}
+{% block breadcrumb %}
+{{ breadcrumb.breadcrumb('Editer abonnement',[
+{
+path:path('admin_abonnement_index'),
+name:'Abonnements'
+}
+])
+}}
+{% endblock %}
 {% block body %}
 <div class="card">
     <div class="card-header">
         <h3>Edit Abonnement</h3>
     </div>
     <div class="card-body">
+        <div class="row">
+            <div class="col-lg-12">
+                <h4 class=" text-center rounded p-2 bg-light">Vos coordonnes</h4>
+                 <div class="row">
+                    <div class=" col-4">
+                        {{ abonnement.client.personne.firstName }}
+                    </div>
+                    <div class="col-4">
+                        {{ abonnement.client.personne.lastName }}
+                    </div>
+                    <div class="col-4">
+                        {{ abonnement.client.hbdDay ? abonnement.client.hbdDay|date_format_fr : '' }}
+                    </div>
+                    <div class="col-6">
+                        {{ abonnement.client.address }}
+                    </div>
+                    <div class="col-3">
+                        {{ abonnement.client.postalCode }}
+                    </div>
+                    <div class="col-3">
+                        {{ abonnement.client.city }}
+                    </div>
+                    <div class="col-6">
+                        {{ abonnement.client.email }}
+                    </div>
+                    <div class="col-6">
+                        {{ abonnement.client.phoneNumber }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{ include('admin/abonnement/_form.html.twig', {'button_label': 'Update'}) }}
 
-        {{ include('admin/abonnement/_form_edit.html.twig', {'button_label': 'Update'}) }}
-
-        <a href="{{ path('admin_abonnement_index') }}">back to list</a>
+        <a href="{{ path('admin_abonnement_index') }}" class="btn btn-dark">back to list</a>
 
         {{ include('admin/abonnement/_delete_form.html.twig') }}
     </div>

@@ -3,9 +3,12 @@
 {% block title %}New Client{% endblock %}
 
 {% block body %}
-    <h1>Create new Client</h1>
-
-    {{ include('admin/client/_form.html.twig') }}
-
-    <a href="{{ path('admin_client_index') }}">back to list</a>
+<div class="card card-outline">
+    <div class="card-header">
+        <h3>Create new Client</h3>
+    </div>
+    <div class="card-body">
+        {{ include('admin/client/_form.html.twig') }}
+    </div>
+</div>
 {% endblock %}

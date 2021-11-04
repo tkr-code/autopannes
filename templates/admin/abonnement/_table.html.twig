@@ -1,0 +1,35 @@
+<table id="table-1" class="table">
+    <thead>
+        <tr>
+            <th>Numero</th>
+            <th>Client</th>
+            <th>Durée</th>
+            <th>actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for abonnement in items %}
+        <tr>
+            <td>{{ abonnement.number }}</td>
+            <td><a href="{{ path('admin_client_show',{id:abonnement.client.id }) }}" class="a-1">{{
+                    abonnement.client.personne.fullName }}</a> <br /> {{ abonnement.client.email }}</td>
+            <td>
+                <span class="font-weight-bold text-primary">Debut:</span> {{ abonnement.createdAt ? abonnement.createdAt|date_format_fr }}<br />
+                <span class="font-weight-bold text-danger">Fin:</span> {{ abonnement.endAt ? abonnement.endAt|date_format_fr }}
+            </td>
+            <td>
+                <div class="btn-group">
+                    <a class="btn btn-light" href="{{ path('admin_abonnement_show', {'id': abonnement.id}) }}"><i
+                            class="fa fa-eye" aria-hidden="true"></i></a>
+                    <a class="btn btn-success" href="{{ path('admin_abonnement_edit', {'id': abonnement.id}) }}"><i
+                            class="fas fa-pencil-alt    "></i></a>
+                </div>
+            </td>
+        </tr>
+        {% else %}
+        <tr>
+            <td colspan="5">no records found</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>

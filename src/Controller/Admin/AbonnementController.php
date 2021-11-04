@@ -3,13 +3,10 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Abonnement;
-use App\Entity\Client;
-use App\Entity\Personne;
 use App\Form\AbonnementType;
-use App\Form\AbonnemntEditType;
+use App\Form\AbonnementClientType;
 use App\Repository\AbonnementRepository;
-use App\Repository\ClientRepository;
-use App\Service\Client\ClientService;
+use App\Service\Abonnement\AbonnementService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -26,47 +23,35 @@ class AbonnementController extends AbstractController
     public function index(AbonnementRepository $abonnementRepository): Response
     {
         return $this->render('admin/abonnement/index.html.twig', [
-            'abonnements' => $abonnementRepository->findAll(),
+            'en_cour' => $abonnementRepository->etat('En cour'),
+            'annuler'=>$abonnementRepository->etat('Annuler'),
+            'terminer'=>$abonnementRepository->etat('Terminer'),
             'parent_page'=>'Abonnement'
         ]);
     }
-
     /**
      * @Route("/new", name="admin_abonnement_new", methods={"GET","POST"})
      */
-    public function new(Request $request, ClientService $clientService, ClientRepository $clientRepository): Response
+    public function new(Request $request, AbonnementService $abonnementService): Response
     {
         $abonnement = new Abonnement();
-        $personne  = new Personne();
-        $personne->setFirstName('Malick')
-        ->setLastName('Tounkara');
-        $client = new Client();
-        $client->setPersonne($personne)
-        ->setEmail('malick@gmail.com')
-        ->setAddress('Petit paris')
-        ->setPostalCode('11000')
-        ->setPhoneNumber('781278288')
-        ->setCity('Libreville');
-        $abonnement->setClient($client);
-        $form = $this->createForm(AbonnementType::class, $abonnement);
+        $form = $this->createForm(AbonnementClientType::class, $abonnement);
         $form->handleRequest($request);
-        
+
         if ($form->isSubmitted() && $form->isValid()) {
-            $client->setNumber($clientService->clientNumber());
-            $abonnement->setClient($client);
-            // payment
-           $payment = $abonnement->getPayment();
-           $payment->setAmount($abonnement->getFormule()->getAmount());
-           //formule and vehicule
-           $forule = $abonnement->getFormule();
+            $abonnement->setNumber($abonnementService->number());
+            
             $vehicule = $abonnement->getVehicule();
-            $vehicule->setFormule($forule);
-            $abonnement->setVehicule($vehicule);
-            // dd($abonnement);
+            $vehicule->setClient($abonnement->getClient());
+            
+            $payment = $abonnement->getPayment();
+            $payment ->setAmount( $vehicule->getFormule()->getAmount());
+            $abonnement->setPayment($payment);
+
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($abonnement);
             $entityManager->flush();
-
+            $this->addFlash('success','Abonnement enregistré');
             return $this->redirectToRoute('admin_abonnement_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -92,12 +77,12 @@ class AbonnementController extends AbstractController
      */
     public function edit(Request $request, Abonnement $abonnement): Response
     {
-        $form = $this->createForm(AbonnemntEditType::class, $abonnement);
+        $form = $this->createForm(AbonnementType::class, $abonnement);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
-
+            $this->addFlash('success','Abonnement modifié');
             return $this->redirectToRoute('admin_abonnement_index', [], Response::HTTP_SEE_OTHER);
         }
 

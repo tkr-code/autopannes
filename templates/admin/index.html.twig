@@ -1,19 +1,14 @@
-{% import "macros/breadcrumb.html.twig" as utils %}
+{% import "macros/breadcrumb.html.twig" as breadcrumb %}
+{% import "macros/etats.html.twig" as etats %}
+{% import "macros/cards.html.twig" as cards %}
 
 {% extends 'admin/base.html.twig' %}
 
 
-{% block title %}Hello AdminController!{% endblock %}
+{% block title %}{{'Dashboard'|trans}} 1{% endblock %}
 
 {% block breadcrumb %}
-{{ utils.breadcrumb('Tableau de boad') }}
-{% endblock %}
-
-{% block head %}
-<!-- Google Font: Source Sans Pro -->
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
-<!-- overlayScrollbars -->
-<link rel="stylesheet" href="{{ asset('adminlte/plugins/overlayScrollbars/css/OverlayScrollbars.min.css') }}">
+{{ breadcrumb.breadcrumb('Dashboard'|trans) }}
 {% endblock %}
 
 {% block body %}
@@ -21,19 +16,11 @@
     <!-- Info boxes -->
     <div class="row">
         <div class="col-12 col-sm-6 col-md-3">
-            <div class="info-box">
-                <span class="info-box-icon bg-info elevation-1"><i class="fas fa-tag"></i></span>
-
-                <div class="info-box-content">
-                    <span class="info-box-text">Abonnemnt </span>
-                    <span class="info-box-number">
-                        {{ abonnements|length|default('0') }}
-                        {# <small>%</small> #}
-                    </span>
-                </div>
-                <!-- /.info-box-content -->
-            </div>
-            <!-- /.info-box -->
+            {{ cards.infoBox(abonnements,{
+                name:'Abonnemnt',
+                icon:'fas fa-tag',
+                path:path('admin_abonnement_index'),
+            })}}
         </div>
         <!-- /.col -->
         <div class="col-12 col-sm-6 col-md-3">
@@ -41,7 +28,7 @@
                 <span class="info-box-icon bg-danger elevation-1"><i class="fa fa-car"></i></span>
 
                 <div class="info-box-content">
-                    <span class="info-box-text">Vehicules</span>
+                    <span class="info-box-text"><a href="{{ path('vehicule_index') }}" class="a-1">Vehicules</a></span>
                     <span class="info-box-number">{{ vehicules|length}}</span>
                 </div>
                 <!-- /.info-box-content -->
@@ -57,7 +44,7 @@
                 <span class="info-box-icon bg-success elevation-1"><i class="fas fa-shopping-cart"></i></span>
 
                 <div class="info-box-content">
-                    <span class="info-box-text">Formules</span>
+                    <span class="info-box-text"><a href="{{ path('admin_formule_index') }}" class="a-1">Formules</a></span>
                     <span class="info-box-number">{{ formules|length }}</span>
                 </div>
                 <!-- /.info-box-content -->
@@ -69,7 +56,7 @@
                 <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-users"></i></span>
 
                 <div class="info-box-content">
-                    <span class="info-box-text">Clients</span>
+                    <span class="info-box-text"><a href="{{ path('admin_client_index') }}" class"a-1"></a></span>
                     <span class="info-box-number">{{ clients|length }}</span>
                 </div>
                 <!-- /.info-box-content -->
@@ -102,11 +89,12 @@
                             </thead>
                             <tbody>
                                 {% for item in abonnements %}
+
                                 <tr>
-                                    <td><a href="{{ path('admin_abonnement_show',{id:item.id}) }}">#{{ item.number
+                                    <td><a data-toggle="tooltip" data-placement="top" title="Voir l'Abonnment"  class="a-1" href="{{ path('admin_abonnement_show',{id:item.id}) }}">#{{ item.number
                                             }}</a></td>
                                     <td>{{ item.client.personne.fullName }}</td>
-                                    <td><span class="badge badge-success">{{ item.etat }}</span></td>
+                                    <td>{{ etats.etat(item.etat) }}</td>
                                 </tr>
                                 {% endfor %}
                             </tbody>
@@ -198,24 +186,4 @@
 <!-- /.row -->
 </div>
 <!--/. container-fluid -->
-{% endblock %}
-
-{% block foot %}
-<!-- overlayScrollbars -->
-<script src="plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
-<!-- AdminLTE App -->
-
-<!-- PAGE PLUGINS -->
-<!-- jQuery Mapael -->
-<script src="{{ asset('adminlte/plugins/jquery-mousewheel/jquery.mousewheel.js') }}"></script>
-<script src="{{ asset('adminlte/plugins/raphael/raphael.min.js') }}"></script>
-<script src="{{ asset('adminlte/plugins/jquery-mapael/jquery.mapael.min.js') }}"></script>
-<script src="{{ asset('adminlte/plugins/jquery-mapael/maps/usa_states.min.js') }}"></script>
-<!-- ChartJS -->
-<script src="{{ asset('adminlte/plugins/chart.js/Chart.min.js') }}"></script>
-
-<!-- AdminLTE for demo purposes -->
-<script src="{{ asset('adminlte/dist/js/demo.js') }}"></script>
-<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-<script src="{{ asset('adminlte/dist/js/pages/dashboard2.js') }}"></script>
 {% endblock %}

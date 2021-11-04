@@ -1,38 +1,216 @@
-{% extends 'base.html.twig' %}
+{% import "macros/dataTable.html.twig" as dataTable %}
+{% import "macros/links.html.twig" as links %}
+{% import "macros/breadcrumb.html.twig" as breadcrumb %}
 
-{% block title %}Client{% endblock %}
+{% extends 'admin/base.html.twig' %}
+{% block head %}
+{{ dataTable.css()}}
+{% endblock %}
+
+{% block breadcrumb %}
+{{ breadcrumb.breadcrumb('Gerer client',[
+{
+path:path('admin_client_index'),
+name:'Clients'
+}
+])
+}}
+{% endblock %}
+
+{% block foot %}
+{{ dataTable.js()}}
+{% endblock %}
+
+{% block title %}client {% endblock %}
 
 {% block body %}
-    <h1>Client</h1>
+<div class="row">
+    <div class="col-md-3">
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ client.id }}</td>
-            </tr>
-            <tr>
-                <th>Email</th>
-                <td>{{ client.email }}</td>
-            </tr>
-            <tr>
-                <th>Postal_code</th>
-                <td>{{ client.postalCode }}</td>
-            </tr>
-            <tr>
-                <th>Hbd_day</th>
-                <td>{{ client.hbdDay ? client.hbdDay|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Phone_number</th>
-                <td>{{ client.phoneNumber }}</td>
-            </tr>
-        </tbody>
-    </table>
+        <!-- Profile Image -->
+        <div class="card card-primary card-outline">
+            <div class="card-body box-profile">
+                <div class="text-center">
+                    <img class="profile-user-img img-fluid img-circle"
+                        src="{{ asset('img/user/' ~ client.personne.avatar|default('empty.png')  ) }}"
+                        alt="User profile picture">
+                </div>
 
-    <a href="{{ path('admin_client_index') }}">back to list</a>
+                <h3 class="profile-username text-center">{{ client.personne.fullName }}</h3>
 
-    <a href="{{ path('admin_client_edit', {'id': client.id}) }}">edit</a>
+                <p class="text-muted text-center">Client</p>
 
-    {{ include('admin_client/_delete_form.html.twig') }}
+                <a href="#" class="btn btn-success btn-block"><b>Modifier</b></a>
+            </div>
+            <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+
+        <!-- About Me Box -->
+        <div class="card card-primary">
+            <div class="card-header">
+                <h3 class="card-title">{{'About Me'|trans}}</h3>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+                <strong><i class="fas fa-book mr-1"></i> Description</strong>
+
+                <p class="text-muted">
+                    B.S. in Computer Science from the University of Tennessee at Knoxville
+                </p>
+
+                <hr>
+
+                <strong><i class="fas fa-map-marker-alt mr-1"></i> Location</strong>
+
+                <p class="text-muted">{{ client.city ~ ', ' ~ client.address }}</p>
+            </div>
+            <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+    </div>
+    <!-- /.col -->
+    <div class="col-md-9">
+        <div class="card">
+            <div class="card-header p-2">
+                <ul class="nav nav-pills">
+                    <li class="nav-item"><a class="nav-link active" href="#abonnement" data-toggle="tab">Abonnement <span class="badge badge-dark">{{ client.abonnements|length }}</span></a>
+                    </li>
+                    <li class="nav-item"><a class="nav-link" href="#vehicule" data-toggle="tab">Véhicules <span class="badge badge-dark">{{ client.vehicules|length }}</span></a></li>
+                </ul>
+            </div><!-- /.card-header -->
+            <div class="card-body">
+                <div class="tab-content">
+                    <div class="tab-pane active" id="abonnement">
+                        <div class="row mb-3">
+                            <div class="col-lg-12">
+                                <div class="btn-group">
+                                    <a class="btn btn-primary" href="{{ path('admin_abonnement_new') }}">New
+                                        Abonnement</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card card-primary card-tabs">
+                            <div class="card-header p-0 pt-1">
+                                <ul class="nav nav-tabs" id="custom-tabs-one-tab" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" id="custom-tabs-one-home-tab" data-toggle="pill"
+                                            href="#custom-tabs-one-home" role="tab" aria-controls="custom-tabs-one-home"
+                                            aria-selected="true">En cour <span class="badge badge-dark">{{ En_cour|length }}</span> </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="custom-tabs-one-profile-tab" data-toggle="pill"
+                                            href="#custom-tabs-one-profile" role="tab"
+                                            aria-controls="custom-tabs-one-profile" aria-selected="false">Anuller <span class="badge badge-dark">{{ Anuller|length }}</span></a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="custom-tabs-one-messages-tab" data-toggle="pill"
+                                            href="#custom-tabs-one-messages" role="tab"
+                                            aria-controls="custom-tabs-one-messages" aria-selected="false">Terminer <span class="badge badge-dark">{{ Terminer|length }}</span></a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="card-body">
+                                <div class="tab-content" id="custom-tabs-one-tabContent">
+                                    <div class="tab-pane fade active show" id="custom-tabs-one-home" role="tabpanel"
+                                        aria-labelledby="custom-tabs-one-home-tab">
+
+                                        <table id="table-1" class="table">
+                                            <thead>
+                                                <th>Number</th>
+                                                <th>Durree</th>
+                                                <th>Actions</th>
+                                            </thead>
+                                            <tbody>
+                                                {% for item in En_cour %}
+                                                <tr>
+                                                    <td>{{ item.number }}
+                                                        <a href="#"><i class="fa fa-eye float-right"
+                                                                aria-hidden="true"></i></a>
+                                                    </td>
+                                                    <td>
+                                                        Debut: {{ item.createdAt|date_format_fr }} </br>
+                                                        Fin: {{ item.endAt|date_format_fr }}
+                                                    </td>
+                                                    <td>
+                                                        <div class="btn-group">
+                                                            <a href="#" class="btn btn-success"><i class="fas fa-pencil-alt    "></i></a>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="tab-pane fade" id="custom-tabs-one-profile" role="tabpanel"
+                                        aria-labelledby="custom-tabs-one-profile-tab">
+                                        <table id="table-2" class="table">
+                                            <thead>
+                                                <th>Number</th>
+                                                <th>Durree</th>
+                                                <th>Actions</th>
+                                            </thead>
+                                            <tbody>
+                                                {% for item in client.abonnements %}
+                                                {% if item.etat == 'Annuler'%}
+                                                <tr>
+                                                    <td>{{ item.id }}
+                                                        <a href="#"><i class="fa fa-eye float-right"
+                                                                aria-hidden="true"></i></a>
+                                                    </td>
+                                                    <td>
+                                                        Debut: {{ item.createdAt|date_format_fr }} </br>
+                                                        Fin: {{ item.endAt|date_format_fr }}
+                                                    </td>
+                                                    <td>
+                                                        {{ links.edit() }}
+                                                    </td>
+                                                </tr>
+                                                {% endif %}
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="tab-pane fade" id="custom-tabs-one-messages" role="tabpanel"
+                                        aria-labelledby="custom-tabs-one-messages-tab">
+                                    </div>
+
+                                </div>
+                            </div>
+                            <!-- /.card -->
+                        </div>
+                    </div>
+                    <!-- /.tab-pane -->
+                    <div class="tab-pane" id="vehicule">
+                        <table id="table-2" class="table">
+                            <thead>
+                                <th>Marque</th>
+                                <th>Immatriculation</th>
+                            </thead>
+                            <tbody>
+                                {% for item in client.vehicules %}
+
+                                <tr>
+                                    <td>{{ item.marque|upper }}</td>
+                                    <td>{{ item.immatriculation }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.tab-pane -->
+                </div>
+                <!-- /.tab-content -->
+            </div><!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+    </div>
+    <!-- /.col -->
+</div>
+{% endblock %}
+
+{% block javascripts %}
+{{ dataTable.script('#table-1')}}
+{{ dataTable.script('#table-2')}}
+{{ dataTable.script('#table-3')}}
 {% endblock %}

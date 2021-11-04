@@ -2,12 +2,17 @@
 namespace App\Twig;
 
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
 class NavExtension extends AbstractExtension
 {
-    const icon ='far fa-circle';
+    private $translator;
+    public function __construct(TranslatorInterface $translatorInterface)
+    {
+        $this->translator = $translatorInterface;
+    }
     public function getFunctions():array
     {
         return[
@@ -23,6 +28,7 @@ class NavExtension extends AbstractExtension
             [
                 [
                     'name'=>'Client',
+                    'icon'=>'fas fa-users',
                     'links'=>
                         [
                             [
@@ -30,50 +36,55 @@ class NavExtension extends AbstractExtension
                                 'path'=>'admin_client_index'
                             ],
                             [
-                                'name'=>'New',
+                                'name'=>'Nouveau Client',
                                 'path'=>'admin_client_new'
-                            ]
+                            ],
                         ]
                 ],
                 [
+                    'name'=>'Souscription',
+                    'icon'=>'far fa-clipboard',
+                    'path'=>'admin_souscription'
+                ],
+                [
                     'name'=>'Abonnement',
+                    'icon'=>'fas fa-clipboard-check',
                     'links'=>
                         [
                             [
                                 'name'=>'Abonnements',
                                 'path'=>'admin_abonnement_index',
-
+                                
                             ],
                             [
-                                'name'=>'New',
-                                'path'=>'admin_abonnement_new'
-                            ]
+                                'name'=>'New Abonnement',
+                                'path'=>'admin_abonnement_new',
+                            ],
                         ]
                 ],
                 [
                     'name'=>'Vehicule',
-                    'path'=>'vehicule_index',
                     'icon'=>'fa fa-car',
                     'links'=>
                         [
                             [
-                                'name'=>'New',
-                                'path'=>'vehicule_new'
+                                'name'=>'Vehicules',
+                                'path'=>'vehicule_index'
                             ]
                         ]
                 ],
-                [
-                    'name'=>'Modele',
-                    'path'=>'admin_modele_index',
-                ],
-                [
-                    'name'=>'Marque',
-                    'path'=>'admin_mark_index',
-                ],
-                [
-                    'name'=>'Categorie',
-                    'path'=>'category_index',
-                ],
+                // [
+                //     'name'=>'Modele',
+                //     'path'=>'admin_modele_index',
+                // ],
+                // [
+                //     'name'=>'Marque',
+                //     'path'=>'admin_mark_index',
+                // ],
+                // [
+                //     'name'=>'Categorie',
+                //     'path'=>'category_index',
+                // ],
             ],
             'admin'=>
             [
@@ -84,39 +95,48 @@ class NavExtension extends AbstractExtension
                 ],
                 [
                     'name'=>'Method Payment',
-                    'path'=>'payment_method_index',
+                    'links'=>[
+                        [
+                            'name'=>'Methodes de paiment',
+                            'path'=>'payment_method_index',
+                        ],
+                        [
+                            'name'=>'New Methode de paiement',
+                            'path'=>'payment_method_new',
+                        ]
+                    ]
                 ],
                 [
                     'name'=>'Formule',
-                    'path'=>'admin_formule_index',
+                    'links'=>[
+                        [
+                            'name'=>'Formules',
+                            'path'=>'admin_formule_index',
+                        ],
+                        [
+                            'name'=>'New Formule',
+                            'path'=>'admin_formule_new',
+                        ]
+                    ]
                 ],
-                [
-                    'name'=>'pays',
-                    'path'=>'user_index',
-                    'icon'=>self::icon
-                ],
-                [
-                    'name'=>'Ville',
-                    'path'=>'user_index',
-                    'icon'=>self::icon
-                ],
-                [
-                    'name'=>'pays',
-                    'path'=>'user_index',
-                    'icon'=>self::icon
-                ],
+                
             ],
-            'dashboard'=>
+            'navs'=>
             [
                 [
-                    'name'=>'Dashbord 1',
-                    'path'=>'admin',
-                    'icon'=>self::icon
+                    'name'=>$this->translator->trans('Dashboard'),
+                    'icon'=>'fas fa-tachometer-alt',
+                    'links'=>[
+                        [
+                            'name'=>$this->translator->trans('Dashboard').' 1',
+                            'path'=>'admin',
+                        ]
+                    ]
                 ],
                 [
-                    'name'=>'Profil',
+                    'name'=>'Profile',
                     'path'=>'profile_index',
-                    'icon'=>self::icon
+                    'icon'=>'fas fa-user'
                 ]
             ],
             'editor'=>
@@ -124,7 +144,6 @@ class NavExtension extends AbstractExtension
                 [
                     'title'=>'Category',
                     'path'=>'category_index',
-                    'icon'=>'far fa-circle'
                 ]
             ]
         ];

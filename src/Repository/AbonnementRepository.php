@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Abonnement;
+use App\Entity\Client;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -17,6 +18,30 @@ class AbonnementRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Abonnement::class);
+    }
+    public function etat(string $etat, Client $client = null){
+        $query = $this->findQuery()
+        ->AndWhere("o.etat = :etat ")
+        ->setParameter('etat',$etat);
+        if($client){
+            $query->andWhere('o.client = :client')
+            ->setParameter('client',$client->getId());
+        }
+        return $query->getQuery()->getResult();
+    }
+
+    public function findLast()
+    {
+       return $this->findQuery()
+        ->orderBy('o.id','desc')
+        ->setMaxResults(1)
+        ->getQuery()
+        ->getResult()
+        ;   
+    }
+    public function findQuery()
+    {
+        return $this->createQueryBuilder('o');
     }
 
     // /**

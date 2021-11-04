@@ -2,11 +2,12 @@ twig:
     default_path: '%kernel.project_dir%/templates'
     form_themes: ['bootstrap_4_layout.html.twig'] # accepte plusieurs thèmes
     globals: 
-        app_name: 'Auto-pannes'
         locales: '%app.locales%'
+        app_name: 'GMA'
         navs: '@App\Twig\NavExtension'
         site: 
-            name: 'Auto Panne'
+            name: 'GMA'
+            description: 'Votre garantie 100% mécanique'
             email: 'leseoya@gmail.com'
             current_name: 'F cfa'
             current: 'XOF'

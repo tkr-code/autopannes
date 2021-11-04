@@ -1,0 +1,55 @@
+<?php
+
+namespace App\Form;
+use App\Entity\Formule;
+use App\Entity\PaymentMethod;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use App\Entity\Abonnement;
+use App\Entity\Client;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+
+class AbonnementClientType extends AbstractType
+{
+    public function buildForm(FormBuilderInterface $builder, array $options)
+    {
+        $builder
+            ->add('client',EntityType::class,[
+                'class'=>Client::class,
+                'choice_label'=>function(Client $client){
+                    return $client->getNumber().' | '. $client->getPersonne()->getFullName().' | '.$client->getEmail();
+                }
+            ])
+            ->add('vehicule',VehiculeType::class,[
+                'label'=>false
+            ])
+            // ->add('formule',EntityType::class,[
+            //     'class'=>Formule::class,
+            //     'choice_label'=>function($formule){
+            //         return $formule->getName().' - : '.$formule->getAmount();
+            //     }
+            // ])
+            ->add('payment',PaymentMethodAbonnementType::class,[
+                'label'=>false
+            ])
+            // ->add('created_at')
+            // ->add('end_at',DateType::class,[
+            //     'widget'=>'single_text'
+            // ])
+            // ->add('etat',ChoiceType::class,[
+            //     'choices'=>Abonnement::etats
+            // ])
+            // ->add('payment')
+        ;
+    }
+
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults([
+            'data_class' => Abonnement::class,
+        ]);
+    }
+}

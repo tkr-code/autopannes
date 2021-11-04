@@ -22,6 +22,7 @@ class FormuleController extends AbstractController
     {
         return $this->render('admin/formule/index.html.twig', [
             'formules' => $formuleRepository->findAll(),
+            'parent_page'=>'Formule'
         ]);
     }
 
@@ -45,6 +46,7 @@ class FormuleController extends AbstractController
         return $this->renderForm('admin/formule/new.html.twig', [
             'formule' => $formule,
             'form' => $form,
+            'parent_page'=>'Formule'
         ]);
     }
 
@@ -75,6 +77,7 @@ class FormuleController extends AbstractController
         return $this->renderForm('admin/formule/edit.html.twig', [
             'formule' => $formule,
             'form' => $form,
+            'parent_page'=>'Formule'
         ]);
     }
 

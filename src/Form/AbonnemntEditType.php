@@ -34,12 +34,12 @@ class AbonnemntEditType extends AbstractType
             ->add('etat',ChoiceType::class,[
                 'choices'=>Abonnement::etats,
             ])
-            ->add('formule',EntityType::class,[
-                'class'=>Formule::class,
-                'choice_label'=>function($formule){
-                    return $formule->getName().' - : '.$formule->getAmount();
-                }
-            ])
+            // ->add('formule',EntityType::class,[
+            //     'class'=>Formule::class,
+            //     'choice_label'=>function($formule){
+            //         return $formule->getName().' - : '.$formule->getAmount();
+            //     }
+            // ])
             // ->add('formule')
             // ->add('vehicule')
             // ->add('payment')

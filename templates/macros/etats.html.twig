@@ -1,0 +1,9 @@
+{% macro etat(etat) %}
+    {% if etat == 'En cour' %}
+        <span class="badge m-1 font-weight-bold badge-primary">{{etat}}</span>
+        {% elseif etat == 'Annuler' %}
+        <span class="badge m-1 font-weight-bold badge-danger">{{etat}}</span>
+        {% else %}
+        Etat introuvable
+    {% endif %}
+{% endmacro %}
