@@ -29,7 +29,15 @@
               <img class="profile-user-img img-fluid img-circle"
                   src="{{ asset('img/user/' ~ app.user.personne.avatar|default('empty.png') ) }}"
                   alt="{{ app.user.personne.firstName ~ ' ' ~ app.user.personne.lastName  }}">
+<<<<<<< HEAD
               
+=======
+              {% else %}
+              <img class="profile-user-img img-fluid img-circle"
+                  src="{{ asset('img/user/empty.png') }}"
+                  alt="">
+            {% endif %}
+>>>>>>> 83363b8bd128b1b925e198bcaa9226cac22d0849
           </div>
           <h3 class="profile-username text-center">{{app.user.personne.lastName | title}} {{app.user.personne.firstname | title }}</h3>
 
